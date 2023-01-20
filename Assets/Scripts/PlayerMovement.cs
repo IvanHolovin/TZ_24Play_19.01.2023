@@ -26,10 +26,17 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(0) || Input.touchCount == 1)
+        if (GamePlayManager.Instance.State == GameState.Paused ||
+            GamePlayManager.Instance.State == GameState.WaitingInput)
         {
-            MovePlayer();
+            if (Input.GetMouseButton(0) || Input.touchCount == 1)
+            {
+                MovePlayer();
+            }
+            
         }
+        
+        
     }
 
     private void LateUpdate()
