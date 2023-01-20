@@ -28,6 +28,7 @@ public class UIManager : MonoBehaviour
             case GameState.Paused:
                 DisableAllUI();
                 _pause.gameObject.SetActive(true);
+                _pause.StartAnimation();
                 break;
             case GameState.InGame:
                 DisableAllUI();
@@ -36,6 +37,7 @@ public class UIManager : MonoBehaviour
             case GameState.LoseGame:
                 DisableAllUI();
                 _loseGame.gameObject.SetActive(true);
+                _loseGame.PlayAnimation();
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(state), state, null);

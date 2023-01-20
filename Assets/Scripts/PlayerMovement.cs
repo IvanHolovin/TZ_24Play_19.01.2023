@@ -37,8 +37,9 @@ public class PlayerMovement : MonoBehaviour
         {
             GamePlayManager.Instance.GameStateUpdater(GameState.Paused);
         }
-            
-        
+
+        if (GamePlayManager.Instance.Score % 100 == 0)
+            _speed++;
     }
 
     private void LateUpdate()
