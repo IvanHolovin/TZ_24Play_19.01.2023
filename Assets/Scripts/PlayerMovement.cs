@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -31,15 +32,19 @@ public class PlayerMovement : MonoBehaviour
         {
             MovePlayer();
             GamePlayManager.Instance.GameStateUpdater(GameState.InGame);
-            GamePlayManager.Instance.AddScore(_speed * Time.deltaTime);
         }
         else if (GamePlayManager.Instance.State != GameState.WaitingInput)
         {
             GamePlayManager.Instance.GameStateUpdater(GameState.Paused);
         }
 
-        if (GamePlayManager.Instance.Score % 100 == 0)
-            _speed++;
+        if (GamePlayManager.Instance.State == GameState.InGame)
+        {
+            if (GamePlayManager.Instance.Score % 100 == 0 && GamePlayManager.Instance.Score > 0)
+                _speed++;
+            GamePlayManager.Instance.AddScore(_speed * Time.deltaTime);
+        }
+        
     }
 
     private void LateUpdate()

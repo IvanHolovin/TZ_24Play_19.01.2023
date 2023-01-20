@@ -41,13 +41,12 @@ public class BlockStackManager : MonoBehaviour
         blockToRemove.transform.parent = null;
         if (_blocksList.Count == 0)
         {
-            Debug.Log("LOSED_GAME");
+            GamePlayManager.Instance.GameStateUpdater(GameState.LoseGame);
         }
         else
         {
             UpdateLastBlock();
         }
-        
         
     }
 

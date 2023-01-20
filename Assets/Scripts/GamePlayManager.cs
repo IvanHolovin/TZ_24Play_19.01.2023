@@ -4,6 +4,8 @@ using UnityEngine;
 public class GamePlayManager : MonoBehaviour
 {
     [SerializeField] private UIManager _uiManager;
+    [SerializeField] private TrackSpawner _trackSpawner;
+    [SerializeField] private BlockStackManager _playerBlockStack;
     
     private static GamePlayManager _instance;
     private int _score;
@@ -25,6 +27,15 @@ public class GamePlayManager : MonoBehaviour
     {
         GameStateUpdater(GameState.WaitingInput);
         _uiManager.UpdateUI(GameState.WaitingInput);
+        _trackSpawner.InitializeTracks();
+    }
+
+    private void Update()
+    {
+        if (_playerBlockStack.gameObject.transform.position.z > _trackSpawner.SpawnNewTrackPoint())
+        {
+            _trackSpawner.SpawnNewPart();
+        }
     }
 
 
