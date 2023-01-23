@@ -6,14 +6,17 @@ public class GamePlayManager : MonoBehaviour
     [SerializeField] private UIManager _uiManager;
     [SerializeField] private TrackSpawner _trackSpawner;
     [SerializeField] private BlockStackManager _playerBlockStack;
+    [SerializeField] private PlayerMovement _playerMovement;
+    [SerializeField] private int _speed;
     
     private static GamePlayManager _instance;
-    private int _score;
+    private float _score;
     
     public static GamePlayManager Instance => _instance;
 
 
-    public int Score => _score;
+    public float Score => _score;
+    public int Speed => _speed;
     
 
     public GameState State { get; private set; }
@@ -36,6 +39,11 @@ public class GamePlayManager : MonoBehaviour
         {
             _trackSpawner.SpawnNewPart();
         }
+
+        if (State == GameState.InGame)
+        {
+            _score += Time.deltaTime * _speed;
+        }
     }
 
 
@@ -54,11 +62,14 @@ public class GamePlayManager : MonoBehaviour
                 case GameState.Paused:
                     break;
                 case GameState.LoseGame:
-                    Debug.Log("loose");
                     Debug.Log("Set Player pref new score");
                     break;
                 case GameState.Restart:
-                    //restart
+                    _playerMovement.RestartPlayer();
+                    _playerBlockStack.RestartBlocks();
+                    _trackSpawner.RestartTracks();
+                    _score = 0;
+                    GameStateUpdater(GameState.WaitingInput);
                     break;
             } 
             _uiManager.UpdateUI(newState);
@@ -67,7 +78,7 @@ public class GamePlayManager : MonoBehaviour
 
     public void AddScore(float value)
     {
-        _score += Mathf.RoundToInt(value);
+        //_score += value;
     }
     
     

@@ -8,6 +8,6 @@ public class ScoreBoardUI : MonoBehaviour
 
     private void Update()
     {
-        _scoreText.text = GamePlayManager.Instance.Score.ToString();
+        _scoreText.text = Mathf.RoundToInt(GamePlayManager.Instance.Score).ToString();
     }
 }

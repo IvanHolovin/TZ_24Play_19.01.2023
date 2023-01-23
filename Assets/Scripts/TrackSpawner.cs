@@ -63,7 +63,7 @@ public class TrackSpawner : MonoBehaviour
         }
         else
         {
-            int randomNumber = Random.Range(0, _poolTracks.Count - 4);
+            int randomNumber = Random.Range(1, _poolTracks.Count - 4);
             Track toReplace = _poolTracks[randomNumber];
             _poolTracks.Remove(toReplace);
             toReplace.ResetTrack();
@@ -73,6 +73,26 @@ public class TrackSpawner : MonoBehaviour
             _poolTracks.Add(toReplace);
             _lastSpawned = toReplace;
         }
-            
+    }
+
+    public void RestartTracks()
+    {
+        _poolTracks.Remove(_startTrack);
+        
+        // for (int i = 1; i < _poolTracks.Count; i++)
+        // {
+        //     Destroy(_poolTracks[i].transform.gameObject);
+        //     _poolTracks.Remove(_poolTracks[i]);
+        // }
+        foreach (var track in _poolTracks)
+        {
+            Destroy(track.transform.gameObject);
+        }
+        _poolTracks.Clear();
+        
+        _poolTracks.Add(_startTrack);
+        _lastSpawned = _startTrack;
+        //_poolTracks.Clear();
+        InitializeTracks();
     }
 }

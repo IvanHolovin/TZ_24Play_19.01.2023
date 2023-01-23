@@ -18,7 +18,7 @@ public class LoseGameUI : MonoBehaviour
 
     public void PlayAnimation()
     {
-        _background.DOFade(60, 1.5f);
+        _background.DOFade(0.28f, 1.5f).SetEase(Ease.Linear);
         _scoreText.text = "Score: " + GamePlayManager.Instance.Score;
     }
 

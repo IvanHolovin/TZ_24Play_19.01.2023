@@ -6,7 +6,7 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float _speed;
+    //[SerializeField] private float _speed;
     [SerializeField] private float _boardWidth;
     [SerializeField] private Transform _mainCameraTransform;
     private Transform _playerTransform;
@@ -27,23 +27,21 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GamePlayManager.Instance.State != GameState.LoseGame)
+        {
+          if (Input.GetMouseButton(0) || Input.touchCount == 1)
+          {
+                      MovePlayer();
+                      GamePlayManager.Instance.GameStateUpdater(GameState.InGame);
+                  }
+                  else if (GamePlayManager.Instance.State != GameState.WaitingInput)
+                  {
+                      GamePlayManager.Instance.GameStateUpdater(GameState.Paused);
+                  }
+          
+                    
+        }
         
-        if (Input.GetMouseButton(0) || Input.touchCount == 1)
-        {
-            MovePlayer();
-            GamePlayManager.Instance.GameStateUpdater(GameState.InGame);
-        }
-        else if (GamePlayManager.Instance.State != GameState.WaitingInput)
-        {
-            GamePlayManager.Instance.GameStateUpdater(GameState.Paused);
-        }
-
-        if (GamePlayManager.Instance.State == GameState.InGame)
-        {
-            if (GamePlayManager.Instance.Score % 100 == 0 && GamePlayManager.Instance.Score > 0)
-                _speed++;
-            GamePlayManager.Instance.AddScore(_speed * Time.deltaTime);
-        }
         
     }
 
@@ -72,9 +70,13 @@ public class PlayerMovement : MonoBehaviour
 
         _playerTransform.localPosition = new Vector3(resultPosition, _playerTransform.position.y, _playerTransform.position.z);
         
-        _playerTransform.position += Vector3.forward * _speed * Time.deltaTime;
+        _playerTransform.position += Vector3.forward * GamePlayManager.Instance.Speed * Time.deltaTime;
     }
-    
+
+    public void RestartPlayer()
+    {
+        _playerTransform.position = new Vector3(0f, 0.3f, 0f);
+    }
     
     
 }

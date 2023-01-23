@@ -39,6 +39,9 @@ public class UIManager : MonoBehaviour
                 _loseGame.gameObject.SetActive(true);
                 _loseGame.PlayAnimation();
                 break;
+            case GameState.Restart:
+                DisableAllUI();
+                break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(state), state, null);
         }
