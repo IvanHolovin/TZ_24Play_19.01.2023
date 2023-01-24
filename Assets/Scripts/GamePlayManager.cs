@@ -71,7 +71,7 @@ public class GamePlayManager : MonoBehaviour
                     _score = 0;
                     GameStateUpdater(GameState.WaitingInput);
                     break;
-            } 
+            }
             _uiManager.UpdateUI(newState);
         }
     }

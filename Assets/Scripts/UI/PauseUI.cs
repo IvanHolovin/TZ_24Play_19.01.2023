@@ -13,6 +13,7 @@ public class PauseUI : MonoBehaviour
     private void Awake()
     {
         _menuButton.onClick.AddListener(() => Debug.Log("Go to Main Menu"));
+        _menuButton.gameObject.SetActive(false); // while has no main menu
     }
 
 

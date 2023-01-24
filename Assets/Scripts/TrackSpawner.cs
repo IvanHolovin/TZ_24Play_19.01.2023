@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,13 +28,6 @@ public class TrackSpawner : MonoBehaviour
         _poolTracks.Add(_startTrack);
         _lastSpawned = _startTrack;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
 
     public void InitializeTracks()
     {
@@ -78,21 +70,13 @@ public class TrackSpawner : MonoBehaviour
     public void RestartTracks()
     {
         _poolTracks.Remove(_startTrack);
-        
-        // for (int i = 1; i < _poolTracks.Count; i++)
-        // {
-        //     Destroy(_poolTracks[i].transform.gameObject);
-        //     _poolTracks.Remove(_poolTracks[i]);
-        // }
         foreach (var track in _poolTracks)
         {
             Destroy(track.transform.gameObject);
         }
         _poolTracks.Clear();
-        
         _poolTracks.Add(_startTrack);
         _lastSpawned = _startTrack;
-        //_poolTracks.Clear();
         InitializeTracks();
     }
 }

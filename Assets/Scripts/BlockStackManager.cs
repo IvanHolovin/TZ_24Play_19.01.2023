@@ -15,10 +15,11 @@ public class BlockStackManager : MonoBehaviour
     private List<Block> _blocksList = new List<Block>();
     private Block _lastBlock;
     private Block _topBlockWithStickMan;
+    private PlayerMovement _playerMovement;
 
     void Start()
     {
-        
+        _playerMovement = GetComponent<PlayerMovement>();
         SpawnMainBlock();
         UpdateLastBlock();
     }
@@ -65,17 +66,18 @@ public class BlockStackManager : MonoBehaviour
 
 
         GameObject particles = Instantiate(_collectParticles,newBlock.transform.position,quaternion.identity,_gameEssences);
-        //text.transform.position = newBlock.transform.position;
         text.transform.SetParent(_gameEssences);
     }
 
     public void RemoveBlock(Block blockToRemove)
     {
+        _playerMovement.ShakeCamera();
         _blocksList.Remove(blockToRemove);
         blockToRemove.transform.parent = _gameEssences.transform;
         if (_blocksList.Count == 0)
         {
             GamePlayManager.Instance.GameStateUpdater(GameState.LoseGame);
+            _playerMovement.SetOffTrail();
         }
         else
         {
@@ -86,6 +88,7 @@ public class BlockStackManager : MonoBehaviour
         if (mainBlock == null)
         {
             GamePlayManager.Instance.GameStateUpdater(GameState.LoseGame);
+            _playerMovement.SetOffTrail();
         }
     }
 
@@ -100,7 +103,11 @@ public class BlockStackManager : MonoBehaviour
         {
             foreach (var block in _blocksList)
             {
-                Destroy(block.gameObject);
+                if (block != null)
+                {
+                    Destroy(block.gameObject);  
+                }
+                
             } 
         }
         foreach (Transform child in _gameEssences.transform)
